@@ -10,9 +10,7 @@ class UserTransaction extends StatefulWidget {
 }
 
 class _UserTransactionState extends State<UserTransaction> {
-  @override
-  Widget build(BuildContext context) {
-    final List<Transaction> _transactions = [
+  final List<Transaction> _transactions = [
     Transaction(
       id: 't1',
       title: 'New Shoes',
@@ -26,9 +24,21 @@ class _UserTransactionState extends State<UserTransaction> {
       date: DateTime.now(),
     ),
   ];
-    return Column(children: <Widget>[
-      NewTransaction(),
-      TransactionList(_transactions),
-    ],);
+  void _addTransaction(Transaction tx) {
+    setState(() {
+      _transactions.add(tx);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        children: <Widget>[
+          NewTransaction(_addTransaction),
+          TransactionList(_transactions),
+        ],
+      ),
+    );
   }
 }
