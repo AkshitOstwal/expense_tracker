@@ -22,7 +22,7 @@ class TransactionList extends StatelessWidget {
                   ),
                   decoration: BoxDecoration(
                     border: Border.all(
-                      color: Colors.deepPurple,
+                      color: Theme.of(context).accentColor,
                       width: 2,
                     ),
                     borderRadius: BorderRadius.circular(25),
@@ -31,7 +31,7 @@ class TransactionList extends StatelessWidget {
                   child: Text(
                     '₹ ${transactions[index].amount}',
                     style: TextStyle(
-                      color: Colors.deepPurple,
+                      color: Theme.of(context).accentColor,
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
                     ),

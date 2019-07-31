@@ -16,6 +16,8 @@ class MyApp extends StatelessWidget {
       title: 'Expense Tracker',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        primaryColor: Colors.blue,
+        accentColor: Colors.deepPurple,
       ),
       home: MyHomePage(),
     );
@@ -79,7 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
               width: double.infinity,
               child: Card(
                 child: Text('Chart'),
-                color: Colors.blue,
+                color: Theme.of(context).primaryColor,
                 elevation: 5,
               ),
             ),
