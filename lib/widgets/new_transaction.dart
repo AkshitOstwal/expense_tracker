@@ -65,6 +65,7 @@ class _NewTransactionState extends State<NewTransaction> {
                     amount: double.parse(amountController.text),
                     date: DateTime.now(),
                   ));
+                  Navigator.of(context).pop();
                 },
               ),
               SizedBox(

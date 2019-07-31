@@ -66,7 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
           IconButton(
             icon: Icon(Icons.add_circle_outline),
             iconSize: 30,
-            onPressed: () {},
+            onPressed: ()=> showAddTransaction(context),
           ),
         ],
       ),
