@@ -1,3 +1,4 @@
+import 'package:expense_tracker/widgets/new_transaction.dart';
 import 'package:expense_tracker/widgets/user_transaction.dart';
 import 'package:intl/intl.dart';
 
@@ -21,7 +22,41 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  final List<Transaction> _transactions = [
+    Transaction(
+      id: 't1',
+      title: 'New Shoes',
+      amount: 69.99,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 't2',
+      title: 'Weekly Groceries',
+      amount: 16.53,
+      date: DateTime.now(),
+    ),
+  ];
+
+  void _addTransaction(Transaction tx) {
+    setState(() {
+      _transactions.add(tx);
+    });
+  }
+
+  void showAddTransaction(BuildContext ctx) {
+    showModalBottomSheet(
+      context: ctx,
+        builder: (_) {
+          return NewTransaction(_addTransaction);
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,17 +83,15 @@ class MyHomePage extends StatelessWidget {
                 elevation: 5,
               ),
             ),
-            UserTransaction(),
+            UserTransaction(_transactions),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        
-        onPressed: () {},
+        onPressed:()=> showAddTransaction(context),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
-

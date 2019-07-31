@@ -1,12 +1,21 @@
 import 'package:expense_tracker/models/transaction.dart';
 import 'package:flutter/material.dart';
 
-class NewTransaction extends StatelessWidget {
-  final titleController = TextEditingController();
-  final amountController = TextEditingController();
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+class NewTransaction extends StatefulWidget {
   final Function _addTransaction;
   NewTransaction(this._addTransaction);
+
+  @override
+  _NewTransactionState createState() => _NewTransactionState();
+}
+
+class _NewTransactionState extends State<NewTransaction> {
+  final titleController = TextEditingController();
+
+  final amountController = TextEditingController();
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -22,6 +31,7 @@ class NewTransaction extends StatelessWidget {
             // onSaved: (String value) {
             //   titleInput = value;
             // },
+            
           ),
           SizedBox(
             height: 10,
@@ -45,7 +55,11 @@ class NewTransaction extends StatelessWidget {
                 child: Text('ADD Expense',style: TextStyle(color: Colors.deepPurple),),
                 padding: EdgeInsets.all(5),
                 onPressed: () {
-                  _addTransaction(Transaction(
+                  print((titleController.text));
+                  if(amountController.text == null || titleController.text == ''){
+                    return null;
+                  }
+                  widget._addTransaction(Transaction(
                     id: DateTime.now().toString(),
                     title: titleController.text,
                     amount: double.parse(amountController.text),
