@@ -1,6 +1,5 @@
 import 'package:expense_tracker/widgets/new_transaction.dart';
 import 'package:expense_tracker/widgets/user_transaction.dart';
-import 'package:intl/intl.dart';
 
 import './models/transaction.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +17,22 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         primaryColor: Colors.blue,
         accentColor: Colors.deepPurple,
+        fontFamily: 'OpenSans',
+        
+        textTheme: ThemeData.light().textTheme.copyWith(title:TextStyle(
+                fontFamily: 'OpenSans',
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ) ),
+        appBarTheme: AppBarTheme(
+          textTheme: ThemeData.light().textTheme.copyWith(
+                  title: TextStyle(
+                fontFamily: 'OpenSans',
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ) //TextStyle(fontFamily: 'OpenSans',fontSize: 20),
+                  ),
+        ),
       ),
       home: MyHomePage(),
     );
@@ -31,18 +46,18 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _transactions = [
-    Transaction(
-      id: 't1',
-      title: 'New Shoes',
-      amount: 69.99,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: 't2',
-      title: 'Weekly Groceries',
-      amount: 16.53,
-      date: DateTime.now(),
-    ),
+    // Transaction(
+    //   id: 't1',
+    //   title: 'New Shoes',
+    //   amount: 69.99,
+    //   date: DateTime.now(),
+    // ),
+    // Transaction(
+    //   id: 't2',
+    //   title: 'Weekly Groceries',
+    //   amount: 16.53,
+    //   date: DateTime.now(),
+    // ),
   ];
 
   void _addTransaction(Transaction tx) {
@@ -53,7 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void showAddTransaction(BuildContext ctx) {
     showModalBottomSheet(
-      context: ctx,
+        context: ctx,
         builder: (_) {
           return NewTransaction(_addTransaction);
         });
@@ -68,7 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
           IconButton(
             icon: Icon(Icons.add_circle_outline),
             iconSize: 30,
-            onPressed: ()=> showAddTransaction(context),
+            onPressed: () => showAddTransaction(context),
           ),
         ],
       ),
@@ -91,7 +106,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed:()=> showAddTransaction(context),
+        onPressed: () => showAddTransaction(context),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
