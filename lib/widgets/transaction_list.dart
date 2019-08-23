@@ -5,6 +5,16 @@ import 'package:intl/intl.dart';
 class TransactionList extends StatelessWidget {
   final List<Transaction> transactions;
   TransactionList(this.transactions);
+  String getCurrencyString(double amt) {
+    if (amt >= 100000000) {
+      return '₹${(amt / 100000000).toStringAsFixed(2)} B';
+    } else if (amt >= 1000000) {
+      return '₹${(amt / 1000000).toStringAsFixed(2)} M';
+    } else if (amt >= 1000) {
+      return '₹${(amt / 1000).toStringAsFixed(2)} K';
+    } else
+      return '₹${(amt).toStringAsFixed(1)}';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -12,15 +22,23 @@ class TransactionList extends StatelessWidget {
       height: 500,
       child: transactions.isEmpty
           ? Column(
-              children: <Widget>[SizedBox(height: 20,),
-                Text('No transaction found',style: TextStyle(fontSize: 20),),
-                SizedBox(height: 50,),
+              children: <Widget>[
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  'No Transaction Found',
+                  style: TextStyle(fontSize: 20),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
                 Container(
                   child: Image.asset(
                     'assets/images/waiting.png',
                     fit: BoxFit.cover,
                   ),
-                  height: 350,
+                  height: 300,
                 )
               ],
             )
@@ -43,7 +61,7 @@ class TransactionList extends StatelessWidget {
                         ),
                         padding: EdgeInsets.all(10),
                         child: Text(
-                          '₹ ${transactions[index].amount}',
+                          getCurrencyString(transactions[index].amount),
                           style: TextStyle(
                             color: Theme.of(context).accentColor,
                             fontWeight: FontWeight.bold,

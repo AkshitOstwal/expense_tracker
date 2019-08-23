@@ -1,4 +1,5 @@
 import 'package:expense_tracker/models/transaction.dart';
+import 'package:expense_tracker/widgets/chart_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -14,16 +15,22 @@ class Chart extends StatelessWidget {
         if (recentTransation[i].date.day == weekDay.day &&
             recentTransation[i].date.month == weekDay.month &&
             recentTransation[i].date.year == weekDay.year) {
-              totalSum += recentTransation[i].amount;
-            }
+          totalSum += recentTransation[i].amount;
+        }
       }
       print('inside chart');
       print(DateFormat.E().format(weekDay));
       print(totalSum);
       return {
-        'day': DateFormat.E().format(weekDay).substring(0,2),
+        'day': DateFormat.E().format(weekDay).substring(0, 3),
         'amount': totalSum,
       };
+    }).reversed.toList();
+  }
+
+  double get totalSpending {
+    return groupedTransactionValues.fold(0.0, (sum, item) {
+      return sum + item['amount'];
     });
   }
 
@@ -33,10 +40,19 @@ class Chart extends StatelessWidget {
     return Card(
       elevation: 6,
       margin: EdgeInsets.all(20),
-      child: Row(
-        children:groupedTransactionValues.map((data){
-          return Text("${data['day']} : ${data['amount']}");
-        }).toList(),
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: 10.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: groupedTransactionValues.map((data) {
+            return ChartBar(
+                data['day'],
+                data['amount'],
+                totalSpending == 0
+                    ? 0
+                    : (data['amount'] as double) / totalSpending);
+          }).toList(),
+        ),
       ),
     );
   }
