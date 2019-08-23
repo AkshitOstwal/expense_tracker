@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
         primaryColor: Colors.blue,
-        accentColor: Colors.deepPurple,
+        accentColor: Colors.purple,
         fontFamily: 'OpenSans',
         textTheme: ThemeData.light().textTheme.copyWith(
                 title: TextStyle(
@@ -25,6 +25,9 @@ class MyApp extends StatelessWidget {
               fontSize: 18,
               fontWeight: FontWeight.bold,
             )),
+        buttonTheme: ThemeData.light().buttonTheme.copyWith(
+          buttonColor: Colors.purple
+        ),
         appBarTheme: AppBarTheme(
           textTheme: ThemeData.light().textTheme.copyWith(
                   title: TextStyle(
