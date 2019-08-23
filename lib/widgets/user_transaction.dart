@@ -5,14 +5,15 @@ import 'package:flutter/material.dart';
 
 class UserTransaction extends StatelessWidget {
   final List<Transaction> _transactions;
-  UserTransaction(this._transactions);
+  final Function _deleteTransaction;
+  UserTransaction(this._transactions,this._deleteTransaction);
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
-          TransactionList(_transactions),
+          TransactionList(_transactions,_deleteTransaction),
         ],
       ),
     );

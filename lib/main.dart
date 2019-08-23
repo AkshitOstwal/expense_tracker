@@ -25,9 +25,8 @@ class MyApp extends StatelessWidget {
               fontSize: 18,
               fontWeight: FontWeight.bold,
             )),
-        buttonTheme: ThemeData.light().buttonTheme.copyWith(
-          buttonColor: Colors.purple
-        ),
+        buttonTheme:
+            ThemeData.light().buttonTheme.copyWith(buttonColor: Colors.purple),
         appBarTheme: AppBarTheme(
           textTheme: ThemeData.light().textTheme.copyWith(
                   title: TextStyle(
@@ -79,6 +78,14 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  void _deleteTransaction(Transaction tx) {
+    setState(() {
+      _transactions.removeWhere((txn) {return
+        txn.id == tx.id;
+      });
+    });
+  }
+
   void showAddTransaction(BuildContext ctx) {
     showModalBottomSheet(
         context: ctx,
@@ -109,7 +116,7 @@ class _MyHomePageState extends State<MyHomePage> {
               width: double.infinity,
               child: Chart(_recentTransaction),
             ),
-            UserTransaction(_transactions),
+            UserTransaction(_transactions,_deleteTransaction),
           ],
         ),
       ),

@@ -13,7 +13,7 @@ class NewTransaction extends StatefulWidget {
 class _NewTransactionState extends State<NewTransaction> {
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
-  DateTime _selectedDate = null;
+  DateTime _selectedDate ;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   void _openDatePicker() {

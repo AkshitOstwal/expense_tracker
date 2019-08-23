@@ -4,7 +4,8 @@ import 'package:intl/intl.dart';
 
 class TransactionList extends StatelessWidget {
   final List<Transaction> transactions;
-  TransactionList(this.transactions);
+  final Function _deleteTransaction;
+  TransactionList(this.transactions,this._deleteTransaction);
   String getCurrencyString(double amt) {
     if (amt >= 100000000) {
       return '₹${(amt / 100000000).toStringAsFixed(2)} B';
@@ -19,7 +20,7 @@ class TransactionList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 500,
+      height: 450,
       child: transactions.isEmpty
           ? Column(
               children: <Widget>[
@@ -45,13 +46,13 @@ class TransactionList extends StatelessWidget {
           : ListView.builder(
               itemBuilder: (context, index) {
                 return Card(
-                  child: Row(
-                    children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.symmetric(
-                          vertical: 10,
-                          horizontal: 15,
-                        ),
+                    elevation: 5,
+                    margin: EdgeInsets.symmetric(
+                      vertical: 5,
+                      horizontal: 5,
+                    ),
+                    child: ListTile(
+                      leading: Container(
                         decoration: BoxDecoration(
                           border: Border.all(
                             color: Theme.of(context).accentColor,
@@ -69,29 +70,25 @@ class TransactionList extends StatelessWidget {
                           ),
                         ),
                       ),
-                      SizedBox(
-                        width: 15,
+                      title: Text(
+                        transactions[index].title,
+                        style: Theme.of(context).textTheme.title,
                       ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            transactions[index].title,
-                            style: Theme.of(context).textTheme.title,
-                          ),
-                          Text(
-                            DateFormat('EEE dd/mm/yyyy ')
-                                .format(transactions[index].date),
-                            style: TextStyle(
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ],
+                      subtitle: Text(
+                        DateFormat('EEE dd/mm/yyyy ')
+                            .format(transactions[index].date),
+                        style: TextStyle(
+                          color: Colors.grey,
+                        ),
                       ),
-                    ],
-                  ),
-                );
+                      trailing: IconButton(
+                        icon: Icon(
+                          Icons.delete,
+                          color: Theme.of(context).errorColor,
+                        ),
+                        onPressed: () =>_deleteTransaction(transactions[index]),
+                      ),
+                    ));
               },
               itemCount: transactions.length,
             ),
