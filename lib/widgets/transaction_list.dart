@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 class TransactionList extends StatelessWidget {
   final List<Transaction> transactions;
   final Function _deleteTransaction;
-  TransactionList(this.transactions,this._deleteTransaction);
+  TransactionList(this.transactions, this._deleteTransaction);
   String getCurrencyString(double amt) {
     if (amt >= 100000000) {
       return '₹${(amt / 100000000).toStringAsFixed(2)} B';
@@ -46,49 +46,81 @@ class TransactionList extends StatelessWidget {
           : ListView.builder(
               itemBuilder: (context, index) {
                 return Card(
-                    elevation: 5,
-                    margin: EdgeInsets.symmetric(
-                      vertical: 5,
-                      horizontal: 5,
-                    ),
-                    child: ListTile(
-                      leading: Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Theme.of(context).accentColor,
-                            width: 2,
-                          ),
-                          borderRadius: BorderRadius.circular(25),
+                  elevation: 5,
+                  margin: EdgeInsets.symmetric(
+                    vertical: 5,
+                    horizontal: 5,
+                  ),
+                  child: ListTile(
+                    leading: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Theme.of(context).accentColor,
+                          width: 2,
                         ),
-                        padding: EdgeInsets.all(10),
-                        child: Text(
-                          getCurrencyString(transactions[index].amount),
-                          style: TextStyle(
-                            color: Theme.of(context).accentColor,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                          ),
-                        ),
+                        borderRadius: BorderRadius.circular(25),
                       ),
-                      title: Text(
-                        transactions[index].title,
-                        style: Theme.of(context).textTheme.title,
-                      ),
-                      subtitle: Text(
-                        DateFormat('EEE dd/mm/yyyy ')
-                            .format(transactions[index].date),
+                      padding: EdgeInsets.all(10),
+                      child: Text(
+                        getCurrencyString(transactions[index].amount),
                         style: TextStyle(
-                          color: Colors.grey,
+                          color: Theme.of(context).accentColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
                         ),
                       ),
-                      trailing: IconButton(
-                        icon: Icon(
-                          Icons.delete,
-                          color: Theme.of(context).errorColor,
-                        ),
-                        onPressed: () =>_deleteTransaction(transactions[index]),
+                    ),
+                    title: Text(
+                      transactions[index].title,
+                      style: Theme.of(context).textTheme.title,
+                    ),
+                    subtitle: Text(
+                      DateFormat.yMEd()
+                          .format(transactions[index].date),
+                      style: TextStyle(
+                        color: Colors.grey,
                       ),
-                    ));
+                    ),
+                    trailing: PopupMenuButton(
+                      itemBuilder: (BuildContext context) {
+                        return <PopupMenuEntry>[
+                          PopupMenuItem(
+                            child: ListTile(
+                              leading: Icon(
+                                Icons.edit,
+                                color: Colors.purple,
+                              ),
+                              title: Text(
+                                'Edit',
+                                style: TextStyle(fontSize: 15),
+                              ),
+                              dense: true,
+                            ),
+                            value: 'edit',
+                          ),
+                          PopupMenuItem(
+                            child: ListTile(
+                              leading: Icon(
+                                Icons.delete,
+                                color: Theme.of(context).errorColor,
+                              ),
+                              title: Text(
+                                'Delete',
+                                style: TextStyle(fontSize: 15),
+                              ),
+                              dense: true,
+                            ),
+                            value: 'delete',
+                          ),
+                        ];
+                      },
+                      onSelected: (value) {
+                        if (value == 'delete')
+                          _deleteTransaction(transactions[index]);
+                      },
+                    ),
+                  ),
+                );
               },
               itemCount: transactions.length,
             ),

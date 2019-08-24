@@ -1,4 +1,4 @@
-import 'package:expense_tracker/widgets/currency_text.dart';
+
 import 'package:flutter/material.dart';
 
 class ChartBar extends StatelessWidget {

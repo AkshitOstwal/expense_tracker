@@ -72,6 +72,38 @@ class _MyHomePageState extends State<MyHomePage> {
     }).toList();
   }
 
+  Future<void> _deleteWarning(Transaction tx) {
+    return showDialog(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Are you sure ?'),
+          content: SingleChildScrollView(
+            child: Text("The expense once deleted can't be retrived"),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            FlatButton(
+              child: Text('Delete',style: TextStyle(color: Colors.purple,fontWeight: FontWeight.bold),),
+              onPressed: () {
+                setState(() {
+                  _transactions.removeWhere((txn) => txn.id == tx.id);
+                });
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   void _addTransaction(Transaction tx) {
     setState(() {
       _transactions.add(tx);
@@ -79,11 +111,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _deleteTransaction(Transaction tx) {
-    setState(() {
-      _transactions.removeWhere((txn) {return
-        txn.id == tx.id;
-      });
-    });
+    _deleteWarning(tx);
   }
 
   void showAddTransaction(BuildContext ctx) {
@@ -116,7 +144,7 @@ class _MyHomePageState extends State<MyHomePage> {
               width: double.infinity,
               child: Chart(_recentTransaction),
             ),
-            UserTransaction(_transactions,_deleteTransaction),
+            UserTransaction(_transactions, _deleteTransaction),
           ],
         ),
       ),
