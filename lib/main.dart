@@ -90,7 +90,11 @@ class _MyHomePageState extends State<MyHomePage> {
               },
             ),
             FlatButton(
-              child: Text('Delete',style: TextStyle(color: Colors.purple,fontWeight: FontWeight.bold),),
+              child: Text(
+                'Delete',
+                style: TextStyle(
+                    color: Colors.purple, fontWeight: FontWeight.bold),
+              ),
               onPressed: () {
                 setState(() {
                   _transactions.removeWhere((txn) => txn.id == tx.id);
@@ -112,6 +116,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _deleteTransaction(Transaction tx) {
     _deleteWarning(tx);
+  }
+
+  void _editTransaction(Transaction tx) {
+    setState(() {
+      _transactions.removeWhere((txn) => (txn.id == tx.id));
+      _transactions.add(tx);
+    });
   }
 
   void showAddTransaction(BuildContext ctx) {
@@ -144,7 +155,8 @@ class _MyHomePageState extends State<MyHomePage> {
               width: double.infinity,
               child: Chart(_recentTransaction),
             ),
-            UserTransaction(_transactions, _deleteTransaction),
+            UserTransaction(
+                _transactions, _deleteTransaction, _editTransaction),
           ],
         ),
       ),

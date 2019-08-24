@@ -1,11 +1,14 @@
+import 'package:expense_tracker/widgets/edit_transaction.dart';
+
 import '../models/transaction.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class TransactionList extends StatelessWidget {
   final List<Transaction> transactions;
-  final Function _deleteTransaction;
-  TransactionList(this.transactions, this._deleteTransaction);
+  final Function _deleteTransaction, _editTransaction;
+  TransactionList(
+      this.transactions, this._deleteTransaction, this._editTransaction);
   String getCurrencyString(double amt) {
     if (amt >= 100000000) {
       return '₹${(amt / 100000000).toStringAsFixed(2)} B';
@@ -15,6 +18,14 @@ class TransactionList extends StatelessWidget {
       return '₹${(amt / 1000).toStringAsFixed(2)} K';
     } else
       return '₹${(amt).toStringAsFixed(1)}';
+  }
+
+  void showEditTransaction(BuildContext ctx, Transaction txn) {
+    showDialog(
+        context: ctx,
+        builder: (_) {
+          return EditTransaction(_editTransaction, txn);
+        });
   }
 
   @override
@@ -75,8 +86,7 @@ class TransactionList extends StatelessWidget {
                       style: Theme.of(context).textTheme.title,
                     ),
                     subtitle: Text(
-                      DateFormat.yMEd()
-                          .format(transactions[index].date),
+                      DateFormat.yMEd().format(transactions[index].date),
                       style: TextStyle(
                         color: Colors.grey,
                       ),
@@ -117,6 +127,8 @@ class TransactionList extends StatelessWidget {
                       onSelected: (value) {
                         if (value == 'delete')
                           _deleteTransaction(transactions[index]);
+                        else if (value == 'edit')
+                          showEditTransaction(context, transactions[index]);
                       },
                     ),
                   ),

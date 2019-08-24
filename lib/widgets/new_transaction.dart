@@ -38,7 +38,7 @@ class _NewTransactionState extends State<NewTransaction> {
         children: <Widget>[
           TextField(
             decoration: InputDecoration(
-              labelText: 'Titile',
+              labelText: 'Title',
               hintText: 'Enter the title of expense.',
             ),
             // key: _formKey,
