@@ -30,112 +30,109 @@ class TransactionList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 450,
-      child: transactions.isEmpty
-          ? Column(
-              children: <Widget>[
-                SizedBox(
-                  height: 20,
+    return transactions.isEmpty
+        ? Column(
+            children: <Widget>[
+              SizedBox(
+                height: 20,
+              ),
+              Text(
+                'No Transaction Found',
+                style: TextStyle(fontSize: 20),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Container(
+                child: Image.asset(
+                  'assets/images/waiting.png',
+                  fit: BoxFit.cover,
                 ),
-                Text(
-                  'No Transaction Found',
-                  style: TextStyle(fontSize: 20),
+                height: 300,
+              )
+            ],
+          )
+        : ListView.builder(
+            itemBuilder: (context, index) {
+              return Card(
+                elevation: 5,
+                margin: EdgeInsets.symmetric(
+                  vertical: 5,
+                  horizontal: 5,
                 ),
-                SizedBox(
-                  height: 20,
-                ),
-                Container(
-                  child: Image.asset(
-                    'assets/images/waiting.png',
-                    fit: BoxFit.cover,
-                  ),
-                  height: 300,
-                )
-              ],
-            )
-          : ListView.builder(
-              itemBuilder: (context, index) {
-                return Card(
-                  elevation: 5,
-                  margin: EdgeInsets.symmetric(
-                    vertical: 5,
-                    horizontal: 5,
-                  ),
-                  child: ListTile(
-                    leading: Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Theme.of(context).accentColor,
-                          width: 2,
-                        ),
-                        borderRadius: BorderRadius.circular(25),
+                child: ListTile(
+                  leading: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Theme.of(context).accentColor,
+                        width: 2,
                       ),
-                      padding: EdgeInsets.all(10),
-                      child: Text(
-                        getCurrencyString(transactions[index].amount),
-                        style: TextStyle(
-                          color: Theme.of(context).accentColor,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                        ),
-                      ),
+                      borderRadius: BorderRadius.circular(25),
                     ),
-                    title: Text(
-                      transactions[index].title,
-                      style: Theme.of(context).textTheme.title,
-                    ),
-                    subtitle: Text(
-                      DateFormat.yMEd().format(transactions[index].date),
+                    padding: EdgeInsets.all(10),
+                    child: Text(
+                      getCurrencyString(transactions[index].amount),
                       style: TextStyle(
-                        color: Colors.grey,
+                        color: Theme.of(context).accentColor,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
                       ),
                     ),
-                    trailing: PopupMenuButton(
-                      itemBuilder: (BuildContext context) {
-                        return <PopupMenuEntry>[
-                          PopupMenuItem(
-                            child: ListTile(
-                              leading: Icon(
-                                Icons.edit,
-                                color: Colors.purple,
-                              ),
-                              title: Text(
-                                'Edit',
-                                style: TextStyle(fontSize: 15),
-                              ),
-                              dense: true,
-                            ),
-                            value: 'edit',
-                          ),
-                          PopupMenuItem(
-                            child: ListTile(
-                              leading: Icon(
-                                Icons.delete,
-                                color: Theme.of(context).errorColor,
-                              ),
-                              title: Text(
-                                'Delete',
-                                style: TextStyle(fontSize: 15),
-                              ),
-                              dense: true,
-                            ),
-                            value: 'delete',
-                          ),
-                        ];
-                      },
-                      onSelected: (value) {
-                        if (value == 'delete')
-                          _deleteTransaction(transactions[index]);
-                        else if (value == 'edit')
-                          showEditTransaction(context, transactions[index]);
-                      },
+                  ),
+                  title: Text(
+                    transactions[index].title,
+                    style: Theme.of(context).textTheme.title,
+                  ),
+                  subtitle: Text(
+                    DateFormat.yMEd().format(transactions[index].date),
+                    style: TextStyle(
+                      color: Colors.grey,
                     ),
                   ),
-                );
-              },
-              itemCount: transactions.length,
-            ),
-    );
+                  trailing: PopupMenuButton(
+                    itemBuilder: (BuildContext context) {
+                      return <PopupMenuEntry>[
+                        PopupMenuItem(
+                          child: ListTile(
+                            leading: Icon(
+                              Icons.edit,
+                              color: Colors.purple,
+                            ),
+                            title: Text(
+                              'Edit',
+                              style: TextStyle(fontSize: 15),
+                            ),
+                            dense: true,
+                          ),
+                          value: 'edit',
+                        ),
+                        PopupMenuItem(
+                          child: ListTile(
+                            leading: Icon(
+                              Icons.delete,
+                              color: Theme.of(context).errorColor,
+                            ),
+                            title: Text(
+                              'Delete',
+                              style: TextStyle(fontSize: 15),
+                            ),
+                            dense: true,
+                          ),
+                          value: 'delete',
+                        ),
+                      ];
+                    },
+                    onSelected: (value) {
+                      if (value == 'delete')
+                        _deleteTransaction(transactions[index]);
+                      else if (value == 'edit')
+                        showEditTransaction(context, transactions[index]);
+                    },
+                  ),
+                ),
+              );
+            },
+            itemCount: transactions.length,
+          );
   }
 }

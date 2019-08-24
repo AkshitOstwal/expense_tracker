@@ -1,6 +1,6 @@
 import 'package:expense_tracker/widgets/chart.dart';
 import 'package:expense_tracker/widgets/new_transaction.dart';
-import 'package:expense_tracker/widgets/user_transaction.dart';
+import 'package:expense_tracker/widgets/transaction_list.dart';
 
 import './models/transaction.dart';
 import 'package:flutter/material.dart';
@@ -135,8 +135,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
+    AppBar appBar = AppBar(
         title: Text('Expense Tracker'),
         actions: <Widget>[
           IconButton(
@@ -145,18 +144,21 @@ class _MyHomePageState extends State<MyHomePage> {
             onPressed: () => showAddTransaction(context),
           ),
         ],
-      ),
+      );
+    return Scaffold(
+      appBar: appBar,
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Container(
+            Container(height: (MediaQuery.of(context).size.height - appBar.preferredSize.height-MediaQuery.of(context).padding.top) *0.32,
               width: double.infinity,
               child: Chart(_recentTransaction),
             ),
-            UserTransaction(
-                _transactions, _deleteTransaction, _editTransaction),
+            Container(height: (MediaQuery.of(context).size.height - appBar.preferredSize.height-MediaQuery.of(context).padding.top) *0.68,
+              child: TransactionList(_transactions,_deleteTransaction,_editTransaction),
+            ),
           ],
         ),
       ),
