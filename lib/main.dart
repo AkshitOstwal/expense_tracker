@@ -126,7 +126,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void showAddTransaction(BuildContext ctx) {
-    showModalBottomSheet(
+    showModalBottomSheet(isScrollControlled: true,
         context: ctx,
         builder: (_) {
           return NewTransaction(_addTransaction);
@@ -136,30 +136,42 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     AppBar appBar = AppBar(
-        title: Text('Expense Tracker'),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.add_circle_outline),
-            iconSize: 30,
-            onPressed: () => showAddTransaction(context),
-          ),
-        ],
-      );
+      title: Text('Expense Tracker'),
+      actions: <Widget>[
+        IconButton(
+          icon: Icon(Icons.add_circle_outline),
+          iconSize: 30,
+          onPressed: () => showAddTransaction(context),
+        ),
+      ],
+    );
+    double availableHeight = (MediaQuery.of(context).size.height -
+        appBar.preferredSize.height -
+        MediaQuery.of(context).padding.top);
     return Scaffold(
       appBar: appBar,
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Container(height: (MediaQuery.of(context).size.height - appBar.preferredSize.height-MediaQuery.of(context).padding.top) *0.32,
-              width: double.infinity,
-              child: Chart(_recentTransaction),
-            ),
-            Container(height: (MediaQuery.of(context).size.height - appBar.preferredSize.height-MediaQuery.of(context).padding.top) *0.68,
-              child: TransactionList(_transactions,_deleteTransaction,_editTransaction),
-            ),
-          ],
+      body: SafeArea(
+              child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Container(
+                height:
+                    MediaQuery.of(context).orientation == Orientation.landscape
+                        ? availableHeight * 0.43
+                        : availableHeight * 0.30,
+                width: double.infinity,
+                child: Chart(_recentTransaction),
+              ),
+              Container(
+                height: MediaQuery.of(context).orientation == Orientation.landscape
+                        ? availableHeight * 0.57 : availableHeight * 0.70 ,
+                child: TransactionList(
+                    _transactions, _deleteTransaction, _editTransaction),
+              ),
+            ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(

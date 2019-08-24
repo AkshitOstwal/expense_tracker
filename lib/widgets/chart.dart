@@ -39,7 +39,7 @@ class Chart extends StatelessWidget {
     //print(groupedTransactionValues);
     return Card(
       elevation: 6,
-      margin: EdgeInsets.all(20),
+      margin: EdgeInsets.all(12),
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 10.0),
         child: Row(

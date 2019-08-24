@@ -26,7 +26,7 @@ class ChartBar extends StatelessWidget {
           height: 4,
         ),
         Container(
-          height: 80,
+          height: MediaQuery.of(context).size.height *0.12,
           width: 10,
           child: Stack(
             children: <Widget>[
